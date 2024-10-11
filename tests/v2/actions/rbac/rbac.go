@@ -14,6 +14,7 @@ type Role string
 const (
 	Admin                     Role = "admin"
 	RestrictedAdmin           Role = "restricted-admin"
+	AdminApp				  Role = "restricted-admin-replacement"
 	StandardUser              Role = "user"
 	ClusterOwner              Role = "cluster-owner"
 	ClusterMember             Role = "cluster-member"

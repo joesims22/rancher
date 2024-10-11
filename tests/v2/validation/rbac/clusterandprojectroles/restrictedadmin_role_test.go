@@ -54,7 +54,7 @@ func (ra *RestrictedAdminTestSuite) TestRestrictedAdminCreateCluster() {
 	subSession := ra.session.NewSession()
 	defer subSession.Cleanup()
 
-	_, restrictedAdminClient, err := rbac.SetupUser(ra.client, rbac.RestrictedAdmin.String())
+	_, restrictedAdminClient, err := rbac.SetupUser(ra.client, rbac.AdminApp.String())
 	require.NoError(ra.T(), err)
 	ra.T().Logf("Validating restricted admin can create a downstream cluster")
 	userConfig := new(provisioninginput.Config)
@@ -81,7 +81,7 @@ func (ra *RestrictedAdminTestSuite) TestRestrictedAdminGlobalSettings() {
 	subSession := ra.session.NewSession()
 	defer subSession.Cleanup()
 
-	_, restrictedAdminClient, err := rbac.SetupUser(ra.client, rbac.RestrictedAdmin.String())
+	_, restrictedAdminClient, err := rbac.SetupUser(ra.client, rbac.AdminApp.String())
 	require.NoError(ra.T(), err)
 	ra.T().Log("Validating restricted Admin can list global settings")
 	steveRestrictedAdminclient := restrictedAdminClient.Steve
@@ -102,7 +102,8 @@ func (ra *RestrictedAdminTestSuite) TestRestrictedAdminGlobalSettings() {
 func (ra *RestrictedAdminTestSuite) TestRestrictedAdminCantUpdateGlobalSettings() {
 	ra.T().Logf("Validating restrictedAdmin cannot edit global settings")
 
-	_, restrictedAdminClient, err := rbac.SetupUser(ra.client, rbac.RestrictedAdmin.String())
+	_, restrictedAdminClient, err := rbac.SetupUser(ra.client, rbac.AdminApp.String())
+	//_, restrictedAdminClient, err := rbac.SetupUser(ra.client, rbac.RestrictedAdmin.String())
 	require.NoError(ra.T(), err)
 
 	steveRestrictedAdminclient := restrictedAdminClient.Steve
