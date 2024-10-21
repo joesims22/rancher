@@ -47,3 +47,34 @@ func PatchToken(client *rancher.Client, clusterID, tokenName, patchOp, patchPath
 	}
 	return newToken, unstructuredResp, nil
 }
+
+// ListTokens is a helper function that uses the dynamic client to list tokens in a cluster
+func ListTokens(client *rancher.Client, clusterID string, listOpt metav1.ListOptions) (*v3.TokenList, error) {
+	// Get the dynamic client for the specified cluster
+	dynamicClient, err := client.GetDownStreamClusterClient(clusterID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get downstream cluster client: %w", err)
+	}
+
+	// Prepare the token resource
+	tokenResource := dynamicClient.Resource(TokenGroupVersionResource)
+
+	// Retrieve the list of tokens
+	unstructuredList, err := tokenResource.List(context.TODO(), listOpt)
+	if err != nil {
+		return nil, fmt.Errorf("failed to list tokens: %w", err)
+	}
+
+	// Convert the unstructured response to a structured TokenList
+	tokenList := &v3.TokenList{}
+	for _, unstructuredToken := range unstructuredList.Items {
+		token := &v3.Token{}
+		err := scheme.Scheme.Convert(&unstructuredToken, token, unstructuredToken.GroupVersionKind())
+		if err != nil {
+			return nil, fmt.Errorf("failed to convert unstructured token: %w", err)
+		}
+		tokenList.Items = append(tokenList.Items, *token)
+	}
+
+	return tokenList, nil
+}
