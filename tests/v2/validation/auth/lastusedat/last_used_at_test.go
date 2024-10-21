@@ -1,36 +1,21 @@
 package lastusedat
 
 import (
-	//"regexp"
-	//"strconv"
-	//"testing"
 	"time"
-
 	"testing"
-
 	"github.com/rancher/rancher/tests/v2/actions/kubeapi/tokens"
 	"github.com/rancher/shepherd/extensions/clusters"
 	"github.com/rancher/shepherd/extensions/kubeconfig"
-	//v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	//clusterv3 "github.com/rancher/rancher/pkg/apis/cluster.cattle.io/v3"
 	"github.com/rancher/shepherd/clients/rancher"
-
 	users "github.com/rancher/shepherd/extensions/users"
-
 	management "github.com/rancher/shepherd/clients/rancher/generated/management/v3"
-	//password "github.com/rancher/shepherd/extensions/users/passwordgenerator"
 	"github.com/rancher/shepherd/pkg/session"
-	//"github.com/stretchr/testify/assert"
-	//"github.com/rancher/shepherd/extensions/users"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
-
-	//k8sErrors "k8s.io/apimachinery/pkg/api/errors"
 	log "github.com/sirupsen/logrus"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	//steveV1 "github.com/rancher/shepherd/clients/rancher/v1"
-	//metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+
 )
 
 const (
@@ -38,7 +23,6 @@ const (
 	StandardUser = "user"
 	ClusterOwner = "cluster-owner"
 	LocalCluster = "local"
-	//namespace    = "local"
 	EmptyString  = ""
 	cattleSystem = "cattle-system"
 )
@@ -91,7 +75,7 @@ func (lua *LastUsedAtTestSuite) TestLastUsedAtTime() {
 	lua.T().Logf("Token: %v was last used at: %s", userToken.Name, userToken.LastUsedAt.Time)
 }
 
-func (lua *LastUsedAtTestSuite) TestLastUsedAtTimeQuick() {
+func (lua *LastUsedAtTestSuite) TestLastUsedAtACEEnabledFullContext() {
 	log.Info("Create a standard user and login to the cluster.")
 	standardUser, err := users.CreateUserWithRole(lua.client, users.UserConfig(), "user")
 	require.NoError(lua.T(), err, "Failed to create standard user")
