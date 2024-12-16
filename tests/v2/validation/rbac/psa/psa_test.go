@@ -281,7 +281,7 @@ func (rb *PSATestSuite) ValidateEditPsactCluster(role string, psact string) {
 }
 
 func (rb *PSATestSuite) TestPSA() {
-	nonAdminUserRoles := [...]string{rbac.RestrictedAdmin.String(), rbac.ClusterOwner.String(), rbac.ReadOnly.String(), rbac.CreateNS.String()}
+	nonAdminUserRoles := [...]string{rbac.ProjectMember.String(), rbac.ProjectOwner.String()}
 	for _, role := range nonAdminUserRoles {
 		var customRole bool
 		if role == rbac.CreateNS.String() {
