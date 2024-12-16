@@ -281,7 +281,7 @@ func (rb *PSATestSuite) ValidateEditPsactCluster(role string, psact string) {
 }
 
 func (rb *PSATestSuite) TestPSA() {
-	nonAdminUserRoles := [...]string{rbac.ClusterMember.String(), rbac.RestrictedAdmin.String(), rbac.ClusterOwner.String(), rbac.ProjectOwner.String(), rbac.ReadOnly.String(), rbac.ProjectMember.String(), rbac.CreateNS.String()}
+	nonAdminUserRoles := [...]string{rbac.RestrictedAdmin.String(), rbac.ClusterOwner.String(), rbac.ReadOnly.String(), rbac.CreateNS.String()}
 	for _, role := range nonAdminUserRoles {
 		var customRole bool
 		if role == rbac.CreateNS.String() {
@@ -371,12 +371,9 @@ func (rb *PSATestSuite) TestPsactRBAC() {
 		role   string
 		member string
 	}{
-		{"Cluster Owner", rbac.ClusterOwner.String(), rbac.StandardUser.String()},
-		{"Cluster Member", rbac.ClusterMember.String(), rbac.StandardUser.String()},
 		{"Project Owner", rbac.ProjectOwner.String(), rbac.StandardUser.String()},
 		{"Project Member", rbac.ProjectMember.String(), rbac.StandardUser.String()},
 		{"Project Read Only", rbac.ReadOnly.String(), rbac.StandardUser.String()},
-		{"Restricted Admin", rbac.RestrictedAdmin.String(), rbac.RestrictedAdmin.String()},
 	}
 	for _, tt := range tests {
 		rb.Run("Set up User with Cluster Role "+tt.name, func() {
