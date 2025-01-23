@@ -27,6 +27,7 @@ const (
 	ClusterMember             Role = "cluster-member"
 	ProjectOwner              Role = "project-owner"
 	ProjectMember             Role = "project-member"
+	RAReplacement             Role = "restricted-admin-replacement"
 	CreateNS                  Role = "create-ns"
 	ReadOnly                  Role = "read-only"
 	CustomManageProjectMember Role = "projectroletemplatebindings-manage"
@@ -67,6 +68,17 @@ func AddUserWithRoleToCluster(adminClient *rancher.Client, globalRole, role stri
 		}
 	}
 
+	return user, userClient, nil
+}
+
+func AddUserWithGlobalRole(adminClient *rancher.Client, globalRole string) (*management.User, *rancher.Client, error) {
+	// Create the user with the specified global role
+	user, userClient, err := SetupUser(adminClient, globalRole)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	// Return the created user and user client
 	return user, userClient, nil
 }
 
