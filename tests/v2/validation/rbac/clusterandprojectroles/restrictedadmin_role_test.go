@@ -42,7 +42,7 @@ func (ra *RestrictedAdminTestSuite) SetupSuite() {
 	// Disabling configuration here is to avoid interference with other pipeline tests.
 	// Updates to the config are temporarily disabled during the test
 	// and are automatically enabled during cleanup.
-	provisioning.DisableUpdateConfig(ra.client)
+	//provisioning.DisableUpdateConfig(ra.client)
 
 	log.Info("Getting cluster name from the config file and append cluster details in the struct.")
 	clusterName := client.RancherConfig.ClusterName
